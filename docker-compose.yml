@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+
+  influxdb:
+    container_name: "influx"
+    image: influxdb:0.13
+    restart: always
+    environment:
+      - INFLUXDB_REPORTING_DISABLED=true
+      - INFLUXDB_HTTP_AUTH_ENABLED=true
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+    expose:
+      - "8090"
+      - "8099"
+    volumes:
+      - influxData:/var/lib/influxdb
+      
+  grafana:
+    container_name: "grafana"
+    image: grafana/grafana:latest
+    restart: always
+    links:
+      - influxdb:influxsrv
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafanaData:/var/lib/grafana
+
+volumes:
+  influxData:
+  grafanaData:
