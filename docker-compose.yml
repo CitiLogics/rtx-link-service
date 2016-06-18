@@ -20,7 +20,7 @@ services:
       
   grafana:
     container_name: "grafana"
-    image: grafana/grafana:latest
+    image: grafana/grafana:3.0.4
     restart: always
     links:
       - influxdb:influxsrv
